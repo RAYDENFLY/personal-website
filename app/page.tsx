@@ -5,6 +5,7 @@ import { Currently } from "@/components/Currently";
 import { Favorites } from "@/components/Favorites";
 import { Footer } from "@/components/Footer";
 import { Gallery } from "@/components/Gallery";
+import { FAQ } from "@/components/FAQ";
 import { Hero } from "@/components/Hero";
 import { Interests } from "@/components/Interests";
 import { Navbar } from "@/components/Navbar";
@@ -30,6 +31,7 @@ export default function Home() {
         </Currently>
         <Favorites />
         <Gallery />
+        <FAQ />
         <Quote />
         <Connect />
       </main>

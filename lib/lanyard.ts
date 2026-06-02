@@ -24,7 +24,7 @@ export type NowPlayingResult =
       message: string;
     };
 
-type LanyardSpotify = {
+export type LanyardSpotify = {
   song?: string;
   artist?: string;
   album_art_url?: string;
@@ -34,12 +34,12 @@ type LanyardSpotify = {
   };
 };
 
-type LanyardActivityAssets = {
+export type LanyardActivityAssets = {
   large_image?: string;
   large_text?: string;
 };
 
-type LanyardActivity = {
+export type LanyardActivity = {
   application_id?: string;
   name?: string;
   details?: string;
@@ -51,12 +51,14 @@ type LanyardActivity = {
   };
 };
 
+export type LanyardData = {
+  activities?: LanyardActivity[];
+  spotify?: LanyardSpotify | null;
+};
+
 type LanyardResponse = {
   success: boolean;
-  data?: {
-    activities?: LanyardActivity[];
-    spotify?: LanyardSpotify | null;
-  };
+  data?: LanyardData;
 };
 
 const MUSIC_PLATFORMS: MusicPlatform[] = ["YouTube Music", "Spotify", "Apple Music"];
@@ -123,6 +125,30 @@ function getSpotifyTrack(spotify?: LanyardSpotify | null): NowPlayingTrack | und
   };
 }
 
+export function processLanyardData(data: LanyardData): NowPlayingResult {
+  const spotifyTrack = getSpotifyTrack(data.spotify);
+
+  if (spotifyTrack) {
+    return {
+      status: "playing",
+      track: spotifyTrack
+    };
+  }
+
+  const activityTrack = data.activities?.map(getTrackFromActivity).find(Boolean);
+
+  if (activityTrack) {
+    return {
+      status: "playing",
+      track: activityTrack
+    };
+  }
+
+  return {
+    status: "idle"
+  };
+}
+
 export async function getNowPlaying(): Promise<NowPlayingResult> {
   const discordUserId = process.env.DISCORD_USER_ID;
 
@@ -156,27 +182,7 @@ export async function getNowPlaying(): Promise<NowPlayingResult> {
       };
     }
 
-    const spotifyTrack = getSpotifyTrack(payload.data.spotify);
-
-    if (spotifyTrack) {
-      return {
-        status: "playing",
-        track: spotifyTrack
-      };
-    }
-
-    const activityTrack = payload.data.activities?.map(getTrackFromActivity).find(Boolean);
-
-    if (activityTrack) {
-      return {
-        status: "playing",
-        track: activityTrack
-      };
-    }
-
-    return {
-      status: "idle"
-    };
+    return processLanyardData(payload.data);
   } catch {
     return {
       status: "error",

@@ -5,15 +5,14 @@ export function Hero() {
   return (
     <section className="hero" id="home">
       <div className="hero-content">
-        <span className="hero-badge">{"\u2726"} FullStack Developer & Design Grafis</span>
+        <span className="hero-badge">{"\u2726"} D3 Teknik Komputer & Developer</span>
         <h1 className="hero-title">
           Halo, Aku
           <br />
-          <span>Raydenfly</span>
+          <span>Ray</span>
         </h1>
         <p className="hero-desc">
-          Seorang kreator digital yang mencintai teknologi, estetika, dan segala hal
-          yang menyatukan keduanya. Selamat datang di ruang digitalku.
+          Mahasiswa yang sedang berjuang dengan tugas akhir sambil ngulik teknologi. Suka musik, coding, racing games, dan kepikiran hal random di jam-jam yang tidak masuk akal.
         </p>
         <a href="#about" className="btn-primary">
           Lihat Karyaku
