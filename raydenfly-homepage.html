@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raydenfly — Digital Identity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink: #E28A95;
+      --pink-light: #f5c2ca;
+      --pink-dark: #c96b79;
+      --pink-pale: #fdf0f2;
+      --pink-ultra: #fef8f9;
+      --white: #ffffff;
+      --gray: #6b6b6b;
+      --dark: #1a1a1a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--pink-ultra); }
+    ::-webkit-scrollbar-thumb { background: var(--pink-light); border-radius: 99px; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(226,138,149,0.15);
+    }
+
+    .nav-logo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8rem;
+      color: var(--pink);
+      letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--pink); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 6rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* decorative blob bg */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      right: -5%;
+      width: 55%;
+      height: 80%;
+      background: radial-gradient(ellipse at center, #fce8eb 0%, #fff5f6 60%, transparent 80%);
+      border-radius: 50% 60% 70% 40% / 50% 40% 60% 50%;
+      animation: blobMove 8s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes blobMove {
+      0%   { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.05) rotate(4deg); }
+    }
+
+    .hero-content { position: relative; z-index: 1; animation: fadeUp 0.9s ease both; }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--pink);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.45rem 1.1rem;
+      border-radius: 99px;
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      line-height: 1.1;
+      font-weight: 900;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-title span { color: var(--pink); }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 400px;
+      margin-bottom: 2.2rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--pink);
+      color: white;
+      padding: 0.85rem 2rem;
+      border-radius: 99px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 4px 20px rgba(226,138,149,0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(226,138,149,0.5);
+      background: var(--pink-dark);
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    .hero-image-frame {
+      position: relative;
+      border-radius: 24px 48px 24px 48px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(226,138,149,0.25), 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .hero-image-frame img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-image-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(226,138,149,0.08) 0%, transparent 60%);
+    }
+
+    /* floating accent dots */
+    .dot {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--pink-light);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .dot-1 { width: 14px; height: 14px; top: 10%; right: -20px; animation-delay: 0s; }
+    .dot-2 { width: 8px; height: 8px; bottom: 20%; right: -10px; animation-delay: 1.5s; }
+    .dot-3 { width: 20px; height: 20px; bottom: -10px; left: 20%; animation-delay: 0.8s; background: rgba(226,138,149,0.3); }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      background: var(--pink-pale);
+      padding: 2.5rem 6rem;
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      border-top: 1px solid rgba(226,138,149,0.12);
+      border-bottom: 1px solid rgba(226,138,149,0.12);
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--pink);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 0.2rem;
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 6rem 6rem; }
+
+    .section-label {
+      display: inline-block;
+      background: var(--pink);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.4rem;
+      border-radius: 99px;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .section-title span { color: var(--pink); }
+
+    .section-text {
+      font-size: 1rem;
+      color: var(--gray);
+      line-height: 1.85;
+      max-width: 620px;
+    }
+
+    /* ─── ABOUT ─── */
+    .about {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-image {
+      position: relative;
+    }
+
+    .about-image-inner {
+      border-radius: 48px 24px 48px 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(226,138,149,0.2);
+    }
+
+    .about-image-inner img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about-accent {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink-light), var(--pink-pale));
+      bottom: -20px;
+      right: -20px;
+      z-index: -1;
+    }
+
+    /* ─── SKILLS / INTEREST ─── */
+    .interest { background: var(--pink-ultra); }
+
+    .interest-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .interest-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem 1.8rem;
+      border: 1px solid rgba(226,138,149,0.15);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .interest-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--pink);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .interest-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(226,138,149,0.18); }
+    .interest-card:hover::before { transform: scaleX(1); }
+
+    .interest-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .interest-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .interest-card p {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* ─── CURRENTLY ─── */
+    .currently {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .currently-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .currently-list li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--pink-ultra);
+      border-radius: 14px;
+      border-left: 3px solid var(--pink);
+      font-size: 0.9rem;
+      color: var(--dark);
+      transition: background 0.2s;
+    }
+
+    .currently-list li:hover { background: var(--pink-pale); }
+
+    .currently-list .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pink);
+      background: rgba(226,138,149,0.12);
+      padding: 0.25rem 0.6rem;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+
+    /* ─── FAVORITES ─── */
+    .favorites { background: var(--pink-ultra); }
+
+    .fav-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+
+    .fav-card {
+      background: white;
+      border-radius: 18px;
+      padding: 1.6rem 1.4rem;
+      text-align: center;
+      border: 1px solid rgba(226,138,149,0.15);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .fav-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(226,138,149,0.15); }
+
+    .fav-emoji { font-size: 2.4rem; margin-bottom: 0.7rem; display: block; }
+
+    .fav-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .fav-card p { font-size: 0.78rem; color: var(--gray); }
+
+    /* ─── GALLERY ─── */
+    .gallery { background: var(--white); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+
+    .gallery-item {
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      background: var(--pink-pale);
+      aspect-ratio: 1;
+      cursor: pointer;
+    }
+
+    .gallery-item:first-child {
+      grid-column: span 2;
+      aspect-ratio: 2/1;
+    }
+
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      background: linear-gradient(135deg, var(--pink-pale), #fff0f3);
+      transition: transform 0.3s;
+    }
+
+    .gallery-item:hover .gallery-placeholder { transform: scale(1.04); }
+
+    .gallery-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(226,138,149,0.5) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+
+    .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+
+    .gallery-item-overlay span {
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── QUOTES ─── */
+    .quotes-section {
+      background: var(--pink);
+      padding: 6rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quotes-section::before, .quotes-section::after {
+      content: '"';
+      position: absolute;
+      font-family: 'Playfair Display', serif;
+      font-size: 18rem;
+      color: rgba(255,255,255,0.08);
+      line-height: 1;
+    }
+
+    .quotes-section::before { top: -2rem; left: 2rem; }
+    .quotes-section::after { bottom: -5rem; right: 2rem; content: '"'; }
+
+    .quote-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-style: italic;
+      color: white;
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote-author {
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── CONNECT ─── */
+    .connect {
+      background: var(--white);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .connect-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.6rem;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid rgba(226,138,149,0.3);
+      color: var(--dark);
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .social-btn:hover {
+      background: var(--pink);
+      color: white;
+      border-color: var(--pink);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(226,138,149,0.35);
+    }
+
+    .social-icon { font-size: 1.1rem; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--pink-dark);
+      padding: 2.5rem 6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.6rem;
+      color: white;
+    }
+
+    .footer-tagline {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hero, .about, .currently { grid-template-columns: 1fr; padding: 5rem 2rem; }
+      section { padding: 4rem 2rem; }
+      .stats-bar { flex-wrap: wrap; padding: 2rem; gap: 2rem; }
+      .interest-grid, .fav-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-item:first-child { grid-column: span 2; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .quotes-section { padding: 4rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Raydenfly</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#interest">Interest</a></li>
+      <li><a href="#currently">Currently</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#connect">Connect</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <span class="hero-badge">✦ FullStack Developer &amp; Design Grafis</span>
+      <h1 class="hero-title">
+        Halo, Aku<br>
+        <span>Raydenfly</span>
+      </h1>
+      <p class="hero-desc">
+        Seorang kreator digital yang mencintai teknologi, estetika, dan segala hal yang menyatukan keduanya. Selamat datang di ruang digitalku.
+      </p>
+      <a href="#about" class="btn-primary">
+        Lihat Karya ku
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="hero-image-wrap">
+      <div class="hero-image-frame">
+        <!-- Replace src with your own image -->
+        <img src="https://i.pinimg.com/736x/c1/cf/8b/c1cf8bf22cbffe7ae21e60cca6820d34.jpg" alt="Raydenfly" onerror="this.style.background='linear-gradient(135deg,#fce8eb,#fff0f3)';this.style.height='420px';this.removeAttribute('src')" />
+      </div>
+      <span class="dot dot-1"></span>
+      <span class="dot dot-2"></span>
+      <span class="dot dot-3"></span>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar reveal">
+    <div class="stat-item">
+      <div class="stat-num">2+</div>
+      <div class="stat-label">Tahun Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">20+</div>
+      <div class="stat-label">Proyek Selesai</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Semangat Belajar</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">☕</div>
+      <div class="stat-label">Cups of Coffee</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-image reveal">
+      <div class="about-image-inner">
+        <img src="https://i.pinimg.com/736x/3e/ae/59/3eae59fcf1a9a78bc5e10eaf2e55a0c0.jpg" alt="About me"
+          onerror="this.style.background='linear-gradient(135deg,#fce8eb,#fff0f3)';this.style.height='400px';this.removeAttribute('src')" />
+      </div>
+      <div class="about-accent"></div>
+    </div>
+    <div class="reveal">
+      <span class="section-label">✦ About Me</span>
+      <h2 class="section-title">Sedikit<br><span>Tentang Aku</span></h2>
+      <p class="section-text">
+        Aku adalah seorang developer dan desainer yang percaya bahwa teknologi dan seni bisa berjalan beriringan. Aku suka membangun hal-hal yang tidak hanya fungsional, tapi juga indah secara visual.
+      </p>
+      <br>
+      <p class="section-text">
+        Di luar coding, aku sering tenggelam dalam dunia anime, musik lo-fi, dan secangkir kopi di malam hari. Hidup terlalu singkat untuk karya yang membosankan.
+      </p>
+    </div>
+  </section>
+
+  <!-- INTEREST -->
+  <section class="interest" id="interest">
+    <div class="reveal" style="text-align:center; margin-bottom: 0;">
+      <span class="section-label">✦ Interest</span>
+      <h2 class="section-title" style="text-align:center;">Hal yang Aku <span>Sukai</span></h2>
+    </div>
+    <div class="interest-grid">
+      <div class="interest-card reveal">
+        <div class="interest-icon">💻</div>
+        <h3>Web Development</h3>
+        <p>Membangun antarmuka yang responsif, cepat, dan menyenangkan untuk digunakan setiap hari.</p>
+      </div>
+      <div class="interest-card reveal">
+        <div class="interest-icon">🎨</div>
+        <h3>Design Grafis</h3>
+        <p>Meracik warna, tipografi, dan komposisi menjadi visual yang bercerita dan mengesankan.</p>
+      </div>
+      <div class="interest-card reveal">
+        <div class="interest-icon">🌸</div>
+        <h3>Anime & Manga</h3>
+        <p>Dunia animasi Jepang yang kaya cerita dan estetika — sumber inspirasi tiada henti.</p>
+      </div>
+      <div class="interest-card reveal">
+        <div class="interest-icon">🎵</div>
+        <h3>Lo-fi Music</h3>
+        <p>Teman setia saat coding larut malam, menciptakan suasana tenang dan fokus.</p>
+      </div>
+      <div class="interest-card reveal">
+        <div class="interest-icon">📸</div>
+        <h3>Photography</h3>
+        <p>Menangkap momen kecil yang sering terlewat — keindahan ada di mana-mana.</p>
+      </div>
+      <div class="interest-card reveal">
+        <div class="interest-icon">✍️</div>
+        <h3>Creative Writing</h3>
+        <p>Menuangkan pikiran ke dalam kata-kata, dari catatan harian hingga cerita fiksi.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRENTLY -->
+  <section class="currently" id="currently">
+    <div class="reveal">
+      <span class="section-label">✦ Currently</span>
+      <h2 class="section-title">Apa yang<br><span>Sedang Aku Lakukan</span></h2>
+      <p class="section-text">Hal-hal yang lagi aku geluti dan kerjain sekarang — dari belajar teknologi baru sampai nonton anime baru.</p>
+    </div>
+    <ul class="currently-list reveal">
+      <li><span class="tag">Belajar</span> Next.js 14 & Server Components</li>
+      <li><span class="tag">Nonton</span> Dungeon Meshi — Delicious in Dungeon</li>
+      <li><span class="tag">Baca</span> Atomic Habits — James Clear</li>
+      <li><span class="tag">Project</span> Personal portfolio v3.0</li>
+      <li><span class="tag">Dengerin</span> Playlist lo-fi hip hop 24/7</li>
+      <li><span class="tag">Eksplorasi</span> AI tools untuk design workflow</li>
+    </ul>
+  </section>
+
+  <!-- FAVORITES -->
+  <section class="favorites" id="favorites">
+    <div class="reveal" style="text-align:center;">
+      <span class="section-label">✦ My Favorites</span>
+      <h2 class="section-title" style="text-align:center;">Favorit<span>-ku</span></h2>
+    </div>
+    <div class="fav-grid">
+      <div class="fav-card reveal">
+        <span class="fav-emoji">🍣</span>
+        <h4>Sushi</h4>
+        <p>Makanan terfavorit</p>
+      </div>
+      <div class="fav-card reveal">
+        <span class="fav-emoji">🌙</span>
+        <h4>Night Owl</h4>
+        <p>Paling produktif malam</p>
+      </div>
+      <div class="fav-card reveal">
+        <span class="fav-emoji">🌸</span>
+        <h4>Anime</h4>
+        <p>Hiburan jiwa</p>
+      </div>
+      <div class="fav-card reveal">
+        <span class="fav-emoji">☕</span>
+        <h4>Kopi</h4>
+        <p>Bahan bakar coding</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="reveal">
+      <span class="section-label">✦ Gallery / Moments</span>
+      <h2 class="section-title">Momen &amp; <span>Karya</span></h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal">
+        <div class="gallery-placeholder">🌸</div>
+        <div class="gallery-item-overlay"><span>Moment favorit ✨</span></div>
+      </div>
+      <div class="gallery-item reveal">
+        <div class="gallery-placeholder">💻</div>
+        <div class="gallery-item-overlay"><span>Late night coding</span></div>
+      </div>
+      <div class="gallery-item reveal">
+        <div class="gallery-placeholder">🎨</div>
+        <div class="gallery-item-overlay"><span>Design project</span></div>
+      </div>
+      <div class="gallery-item reveal">
+        <div class="gallery-placeholder">☕</div>
+        <div class="gallery-item-overlay"><span>Coffee break</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <div class="quotes-section reveal">
+    <p class="quote-text">
+      "Just a person exploring creativity, technology, and life — one line of code and one frame at a time."
+    </p>
+    <p class="quote-author">— Raydenfly</p>
+  </div>
+
+  <!-- CONNECT -->
+  <section class="connect" id="connect">
+    <span class="section-label reveal">✦ Connect With Me</span>
+    <h2 class="section-title reveal">Yuk, <span>Terhubung!</span></h2>
+    <p class="section-text reveal">Mau kolaborasi, diskusi project, atau sekadar say hi? Pintu digitalku selalu terbuka. ✨</p>
+    <div class="connect-links reveal">
+      <a href="#" class="social-btn"><span class="social-icon">📧</span> Email</a>
+      <a href="#" class="social-btn"><span class="social-icon">🐙</span> GitHub</a>
+      <a href="#" class="social-btn"><span class="social-icon">💼</span> LinkedIn</a>
+      <a href="#" class="social-btn"><span class="social-icon">🐦</span> Twitter / X</a>
+      <a href="#" class="social-btn"><span class="social-icon">📸</span> Instagram</a>
+      <a href="#" class="social-btn"><span class="social-icon">💬</span> Discord</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Raydenfly</div>
+    <p class="footer-tagline">"Just a person exploring creativity, technology, and life."</p>
+    <p class="footer-copy">© 2024 Raydenfly. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+</body>
+</html>
