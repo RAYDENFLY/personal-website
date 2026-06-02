@@ -1,6 +1,11 @@
+import type { ReactNode } from "react";
 import { currentlyItems } from "@/lib/content";
 
-export function Currently() {
+type CurrentlyProps = {
+  children?: ReactNode;
+};
+
+export function Currently({ children }: CurrentlyProps) {
   return (
     <section className="currently" id="currently">
       <div className="reveal">
@@ -15,14 +20,17 @@ export function Currently() {
           teknologi baru sampai nonton anime baru.
         </p>
       </div>
-      <ul className="currently-list reveal">
-        {currentlyItems.map((item) => (
-          <li key={`${item.tag}-${item.text}`}>
-            <span className="tag">{item.tag}</span>
-            {item.text}
-          </li>
-        ))}
-      </ul>
+      <div className="currently-stack reveal">
+        {children}
+        <ul className="currently-list">
+          {currentlyItems.map((item) => (
+            <li key={`${item.tag}-${item.text}`}>
+              <span className="tag">{item.tag}</span>
+              {item.text}
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }
