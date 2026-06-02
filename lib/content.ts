@@ -3,6 +3,7 @@ export const navLinks = [
   { href: "#interest", label: "Interest" },
   { href: "#currently", label: "Currently" },
   { href: "#gallery", label: "Gallery" },
+  { href: "#faq", label: "FAQ" },
   { href: "#connect", label: "Connect" }
 ];
 
@@ -14,71 +15,71 @@ export const stats = [
 
 export const interests = [
   {
-    icon: "FaLaptopCode",
-    title: "Web Development",
-    description:
-      "Membangun antarmuka yang responsif, cepat, dan menyenangkan untuk digunakan setiap hari."
-  },
-  {
-    icon: "FaPalette",
-    title: "Design Grafis",
-    description:
-      "Meracik warna, tipografi, dan komposisi menjadi visual yang bercerita dan mengesankan."
-  },
-  {
-    icon: "MdAnimationIcon",
-    title: "Anime & Manga",
-    description:
-      "Dunia animasi Jepang yang kaya cerita dan estetika, sumber inspirasi tiada henti."
-  },
-  {
     icon: "FaMusic",
-    title: "Lo-fi Music",
+    title: "Musik",
     description:
-      "Teman setia saat coding larut malam, menciptakan suasana tenang dan fokus."
+      "Kalau baterai sosialku habis, musik jadi charger-nya. Akhir-akhir ini lebih sering dengar hip-hop. Punya beberapa artist favorit: Rizki Ibrahim, Fury+, Crawla, Suisei."
   },
   {
-    icon: "FaCamera",
-    title: "Photography",
+    icon: "FaLaptopCode",
+    title: "Ngulik Teknologi",
     description:
-      "Menangkap momen kecil yang sering terlewat, karena keindahan ada di mana-mana."
+      "Aku suka bikin sesuatu. Kadang website, kadang machine learning, kadang ESP32, kadang proyek random jam 2 pagi. Lebih suka belajar dengan cara langsung nyoba."
+  },
+  {
+    icon: "FaTrophy",
+    title: "Mobil & Balapan",
+    description:
+      "Mimpi: punya Mazda RX-7 dan ngerasain jadi pembalap. Makanya kebanyakan game yang kumainin adalah game balapan."
+  },
+  {
+    icon: "FaGamepad",
+    title: "Gaming",
+    description:
+      "Favorite games: Assetto Corsa, Gran Turismo, Forza Horizon, NFS, GTA. Suka game yang ngasih kebebasan buat eksplorasi dan main dengan cara sendiri."
+  },
+  {
+    icon: "MdOutlineAnimation",
+    title: "Anime",
+    description:
+      "Favorite anime sampai sekarang: Sword Art Online. Suka karena konsep teknologi, dunia virtual, dan masa depan yang ada di situ."
   },
   {
     icon: "FaPen",
-    title: "Creative Writing",
+    title: "Random Facts",
     description:
-      "Menuangkan pikiran ke dalam kata-kata, dari catatan harian hingga cerita fiksi."
+      "Suka makanan pedas & asin. Tidak berteman baik sama sayuran. Hampir selalu dengerin musik. Kadang produktif di jam aneh. Bisa fokus berjam-jam kalau tertarik."
   }
 ];
 
 export const currentlyItems = [
-  { tag: "Belajar", text: "Next.js 14 & Server Components" },
-  { tag: "Nonton", text: "Dungeon Meshi - Delicious in Dungeon" },
-  { tag: "Baca", text: "Atomic Habits - James Clear" },
-  { tag: "Project", text: "Personal portfolio v3.0" },
-  { tag: "Dengerin", text: "Playlist lo-fi hip hop 24/7" },
-  { tag: "Eksplorasi", text: "AI tools untuk design workflow" }
+  { tag: "Fokus", text: "Menyelesaikan tugas akhir (sidang skripsi)" },
+  { tag: "Kerjain", text: "Beberapa project freelance" },
+  { tag: "Belajar", text: "Banyak hal baru (teknologi & hal random)" },
+  { tag: "Dengerin", text: "Hip-hop: Rizki Ibrahim, Fury+, Crawla, Suisei" },
+  { tag: "Main", text: "Racing games: Assetto Corsa, Gran Turismo, Forza" },
+  { tag: "Mindset", text: "Tetap penasaran dan terus belajar tanpa terburu" }
 ];
 
 export const favorites = [
-  { icon: "MdFoodBank", title: "Sushi", description: "Makanan terfavorit" },
-  { icon: "FaMoon", title: "Night Owl", description: "Paling produktif malam" },
-  { icon: "MdOutlineAnimation", title: "Anime", description: "Hiburan jiwa" },
-  { icon: "FaCoffee", title: "Kopi", description: "Bahan bakar coding" }
+  { icon: "FaMusic", title: "Hip-hop", description: "Artist favorit: Fury+, Rizki Inrahim, Crawla, Suisei, tk from 凛として時雨" },
+  { icon: "FaTrophy", title: "Mazda RX-7", description: "The ultimate dream car" },
+  { icon: "FaGamepad", title: "Racing Games", description: "Assetto Corsa, Gran Turismo, Forza" },
+  { icon: "MdOutlineAnimation", title: "Anime Fav", description: "Sword Art Online & Yahari Ore no Seishun Love Comedy wa Machigatteiru" }
 ];
 
 export const galleryItems = [
-  { icon: "FaStar", label: "Moment favorit" },
-  { icon: "FaLaptop", label: "Late night coding" },
-  { icon: "FaPalette", label: "Design project" },
-  { icon: "FaCoffee", label: "Coffee break" }
+  { icon: "FaMusic", label: "Hip-hop Music" },
+  { icon: "FaTrophy", label: "Racing Dreams" },
+  { icon: "FaLaptopCode", label: "Late Night Coding" },
+  { icon: "FaGamepad", label: "Gaming Sessions" }
 ];
 
 export const socialLinks = [
-  { icon: "MdEmail", label: "Email", href: "mailto:hello@raydenfly.dev" },
-  { icon: "FaGithub", label: "GitHub", href: "#" },
-  { icon: "FaLinkedin", label: "LinkedIn", href: "#" },
-  { icon: "FaTwitter", label: "Twitter / X", href: "#" },
-  { icon: "FaInstagram", label: "Instagram", href: "#" },
-  { icon: "FaDiscord", label: "Discord", href: "#" }
+  { icon: "MdEmail", label: "Email", href: "mailto:raydenfly84@gmail.com" },
+  { icon: "FaGithub", label: "GitHub", href: "https://github.com/RAYDENFLY/" },
+  { icon: "FaLinkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/azis-maulana-suhada-476089262" },
+  { icon: "FaTwitter", label: "Twitter / X", href: "https://x.com/rayryyty" },
+  { icon: "FaInstagram", label: "Instagram", href: "https://www.instagram.com/345.ryx/" },
+  { icon: "FaDiscord", label: "Discord", href: "https://discord.gg/T7Z7Ch6fEa" }
 ];

@@ -23,14 +23,13 @@ export function About() {
           <span>Tentang Aku</span>
         </h2>
         <p className="section-text">
-          Aku adalah seorang developer dan desainer yang percaya bahwa teknologi
-          dan seni bisa berjalan beriringan. Aku suka membangun hal-hal yang
-          tidak hanya fungsional, tapi juga indah secara visual.
+          Nama lengkapku Azis Maulana Suhada, tapi panggil aja Ray. Aku mahasiswa D3 Teknik Komputer yang sedang menyelesaikan sidang tugas akhir sambil ngerjain beberapa project freelance.
         </p>
         <p className="section-text section-text-spaced">
-          Di luar coding, aku sering tenggelam dalam dunia anime, musik lo-fi,
-          dan secangkir kopi di malam hari. Hidup terlalu singkat untuk karya
-          yang membosankan.
+          Kadang aku bisa diam seharian, kadang malah jadi orang paling berisik kalau topiknya cocok. Aku suka teknologi, suka ngulik hal-hal yang bikin penasaran, dan sering kepikiran hal random yang akhirnya bikin buka 20 tab browser cuma buat cari tahu satu hal kecil.
+        </p>
+        <p className="section-text section-text-spaced">
+          Sebagian besar waktuku dihabiskan di depan layar—coding, nyoba teknologi baru, baca sesuatu yang menarik, main game, atau sekadar dengerin lagu sambil bengong mikirin hidup.
         </p>
       </div>
     </section>

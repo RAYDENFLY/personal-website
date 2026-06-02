@@ -2,7 +2,7 @@ import React from "react";
 import {
   FaLaptopCode, FaPalette, FaMusic, FaCamera, FaPen,
   FaMoon, FaCoffee, FaStar, FaLaptop,
-  FaGithub, FaLinkedin, FaTwitter, FaInstagram, FaDiscord
+  FaGithub, FaLinkedin, FaTwitter, FaInstagram, FaDiscord, FaTrophy, FaGamepad
 } from "react-icons/fa";
 import { MdEmail, MdFoodBank, MdOutlineAnimation } from "react-icons/md";
 import { BsInfinity } from "react-icons/bs";
@@ -36,6 +36,10 @@ export const iconMap: Record<string, React.ReactNode> = {
   // Gallery
   "FaStar": <FaStar />,
   "FaLaptop": <FaLaptop />,
+  
+  // Additional
+  "FaTrophy": <FaTrophy />,
+  "FaGamepad": <FaGamepad />,
 };
 
 export function renderIcon(iconName: string | React.ReactNode): React.ReactNode {

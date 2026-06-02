@@ -1,7 +1,11 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { getNowPlaying } from "@/lib/lanyard";
+import { processLanyardData, type NowPlayingResult } from "@/lib/lanyard";
 import { LiveProgress } from "./live-progress";
 
+// ... icons ... (keeping them as is)
 function MusicIcon({ className = "h-[11px] w-[11px]" }: { className?: string }) {
   return (
     <svg aria-hidden="true" className={className} style={{ display: "block", flexShrink: 0, width: 11, height: 11 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -56,8 +60,72 @@ export function NowPlayingSkeleton() {
   );
 }
 
-export async function NowPlaying() {
-  const nowPlaying = await getNowPlaying();
+export function NowPlaying() {
+  const [nowPlaying, setNowPlaying] = useState<NowPlayingResult>({ status: "idle" });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const userId = process.env.NEXT_PUBLIC_DISCORD_USER_ID || "1028264332021575681"; // Fallback to provided ID
+    
+    let socket: WebSocket;
+    let heartbeatInterval: NodeJS.Timeout;
+
+    const connect = () => {
+      socket = new WebSocket("wss://api.lanyard.rest/socket");
+
+      socket.onopen = () => {
+        console.log("Lanyard WebSocket Connected");
+      };
+
+      socket.onmessage = (event) => {
+        const payload = JSON.parse(event.data);
+        const { op, d, t } = payload;
+
+        if (op === 1) {
+          // Hello OP: setup heartbeat
+          heartbeatInterval = setInterval(() => {
+            socket.send(JSON.stringify({ op: 3 }));
+          }, d.heartbeat_interval);
+
+          // Initialize with OP 2
+          socket.send(
+            JSON.stringify({
+              op: 2,
+              d: { subscribe_to_id: userId },
+            })
+          );
+        }
+
+        if (t === "INIT_STATE" || t === "PRESENCE_UPDATE") {
+          const result = processLanyardData(d);
+          setNowPlaying(result);
+          setIsLoading(false);
+        }
+      };
+
+      socket.onclose = () => {
+        console.log("Lanyard WebSocket Disconnected. Retrying...");
+        clearInterval(heartbeatInterval);
+        setTimeout(connect, 5000);
+      };
+
+      socket.onerror = (err) => {
+        console.error("Lanyard WebSocket Error:", err);
+        socket.close();
+      };
+    };
+
+    connect();
+
+    return () => {
+      clearInterval(heartbeatInterval);
+      if (socket) socket.close();
+    };
+  }, []);
+
+  if (isLoading) {
+    return <NowPlayingSkeleton />;
+  }
 
   if (nowPlaying.status === "error") {
     return (
@@ -72,7 +140,7 @@ export async function NowPlaying() {
           </div>
           <div className="flex-1 min-w-0">
             <div className="mb-[2px] truncate text-[13px] font-semibold text-[var(--dark)]">Connection Sleep</div>
-            <div className="mb-[8px] truncate text-[12px] text-[var(--gray)]">System offline</div>
+            <div className="mb-[8px] truncate text-[12px] text-[var(--gray)]">{nowPlaying.message}</div>
           </div>
         </div>
       </div>
