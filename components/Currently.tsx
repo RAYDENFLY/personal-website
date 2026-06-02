@@ -7,7 +7,7 @@ type CurrentlyProps = {
 
 export function Currently({ children }: CurrentlyProps) {
   return (
-    <section className="currently" id="currently">
+    <section className="currently mb-24" id="currently">
       <div className="reveal">
         <span className="section-label">{"\u2726"} Currently</span>
         <h2 className="section-title">
@@ -19,9 +19,10 @@ export function Currently({ children }: CurrentlyProps) {
           Hal-hal yang lagi aku geluti dan kerjain sekarang, dari belajar
           teknologi baru sampai nonton anime baru.
         </p>
+        <br />
+        {children}
       </div>
       <div className="currently-stack reveal">
-        {children}
         <ul className="currently-list">
           {currentlyItems.map((item) => (
             <li key={`${item.tag}-${item.text}`}>

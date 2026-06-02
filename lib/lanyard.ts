@@ -5,6 +5,10 @@ export type NowPlayingTrack = {
   artist: string;
   platform: MusicPlatform;
   albumCoverUrl?: string;
+  timestamps?: {
+    start: number;
+    end?: number;
+  };
 };
 
 export type NowPlayingResult =
@@ -24,6 +28,10 @@ type LanyardSpotify = {
   song?: string;
   artist?: string;
   album_art_url?: string;
+  timestamps?: {
+    start: number;
+    end?: number;
+  };
 };
 
 type LanyardActivityAssets = {
@@ -37,6 +45,10 @@ type LanyardActivity = {
   details?: string;
   state?: string;
   assets?: LanyardActivityAssets;
+  timestamps?: {
+    start?: number;
+    end?: number;
+  };
 };
 
 type LanyardResponse = {
@@ -90,7 +102,10 @@ function getTrackFromActivity(activity: LanyardActivity): NowPlayingTrack | unde
     title: activity.details,
     artist: activity.state ?? "Unknown Artist",
     platform,
-    albumCoverUrl: resolveActivityImage(activity)
+    albumCoverUrl: resolveActivityImage(activity),
+    timestamps: activity.timestamps?.start 
+      ? { start: activity.timestamps.start, end: activity.timestamps.end }
+      : undefined
   };
 }
 
@@ -103,7 +118,8 @@ function getSpotifyTrack(spotify?: LanyardSpotify | null): NowPlayingTrack | und
     title: spotify.song,
     artist: spotify.artist ?? "Unknown Artist",
     platform: "Spotify",
-    albumCoverUrl: spotify.album_art_url
+    albumCoverUrl: spotify.album_art_url,
+    timestamps: spotify.timestamps
   };
 }
 

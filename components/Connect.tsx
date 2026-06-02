@@ -1,4 +1,5 @@
 import { socialLinks } from "@/lib/content";
+import { renderIcon } from "@/lib/icons";
 
 export function Connect() {
   return (
@@ -15,7 +16,7 @@ export function Connect() {
         {socialLinks.map((link) => (
           <a href={link.href} className="social-btn" key={link.label}>
             <span className="social-icon" aria-hidden="true">
-              {link.icon}
+              {renderIcon(link.icon)}
             </span>
             {link.label}
           </a>

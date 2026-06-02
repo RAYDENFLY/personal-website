@@ -1,4 +1,5 @@
 import { favorites } from "@/lib/content";
+import { renderIcon } from "@/lib/icons";
 import { SectionHeading } from "./SectionHeading";
 
 export function Favorites() {
@@ -17,7 +18,7 @@ export function Favorites() {
         {favorites.map((item) => (
           <article className="fav-card reveal" key={item.title}>
             <span className="fav-emoji" aria-hidden="true">
-              {item.icon}
+              {renderIcon(item.icon)}
             </span>
             <h4>{item.title}</h4>
             <p>{item.description}</p>

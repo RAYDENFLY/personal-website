@@ -1,4 +1,5 @@
 import { galleryItems } from "@/lib/content";
+import { renderIcon } from "@/lib/icons";
 
 export function Gallery() {
   return (
@@ -13,7 +14,7 @@ export function Gallery() {
         {galleryItems.map((item) => (
           <article className="gallery-item reveal" key={item.label}>
             <div className="gallery-placeholder" aria-hidden="true">
-              {item.icon}
+              {renderIcon(item.icon)}
             </div>
             <div className="gallery-item-overlay">
               <span>{item.label}</span>
