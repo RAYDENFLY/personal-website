@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { About } from "@/components/About";
 import { Connect } from "@/components/Connect";
 import { Currently } from "@/components/Currently";
@@ -10,6 +11,7 @@ import { Navbar } from "@/components/Navbar";
 import { Quote } from "@/components/Quote";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { StatsBar } from "@/components/StatsBar";
+import { NowPlaying, NowPlayingSkeleton } from "@/components/now-playing";
 
 export default function Home() {
   return (
@@ -21,7 +23,11 @@ export default function Home() {
         <StatsBar />
         <About />
         <Interests />
-        <Currently />
+        <Currently>
+          <Suspense fallback={<NowPlayingSkeleton />}>
+            <NowPlaying />
+          </Suspense>
+        </Currently>
         <Favorites />
         <Gallery />
         <Quote />
