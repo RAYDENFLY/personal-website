@@ -25,7 +25,8 @@ export async function GET(req: NextRequest) {
         timestamp: msg.timestamp,
         name: msg.name,
         message: msg.message,
-        type: msg.type
+        type: msg.type,
+        answer: msg.answer ?? null   // field balasan Ray (opsional)
       }))
     });
 
