@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
 :root {
   --pink: #e28a95;
@@ -14,7 +13,6 @@
   --dark: #1a1a1a;
   --border-pink: rgba(226, 138, 149, 0.15);
   --shadow-pink: rgba(226, 138, 149, 0.24);
-  --font-inter: "Inter", Arial, sans-serif;
   --font-dm-sans: var(--font-inter);
   --font-playfair: var(--font-inter);
   --font-dancing: var(--font-inter);
