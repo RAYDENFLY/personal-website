@@ -10,6 +10,7 @@ import { MessageBoard } from "@/components/MessageBoard";
 import { Hero } from "@/components/Hero";
 import { Interests } from "@/components/Interests";
 import { Navbar } from "@/components/Navbar";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Quote } from "@/components/Quote";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { StatsBar } from "@/components/StatsBar";
@@ -19,6 +20,7 @@ export default function Home() {
   return (
     <>
       <RevealOnScroll />
+      <AnnouncementBar />
       <Navbar />
       <main>
         <Hero />

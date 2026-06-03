@@ -18,6 +18,7 @@
   --font-dm-sans: var(--font-inter);
   --font-playfair: var(--font-inter);
   --font-dancing: var(--font-inter);
+  --announcement-height: 38px;
 }
 
 *,
@@ -62,9 +63,55 @@ body::before {
   border-radius: 99px;
 }
 
-.site-nav {
+.announcement-bar {
   position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  height: var(--announcement-height);
+  background: var(--pink);
+  color: var(--white);
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0 1rem;
+  overflow: hidden;
+}
+
+.announcement-close {
+  position: absolute;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.announcement-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.announcement-content {
+  max-width: 1200px;
+  width: calc(100% - 40px);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.site-nav {
+  position: fixed;
+  top: var(--announcement-height);
   left: 0;
   right: 0;
   z-index: 100;
@@ -75,7 +122,9 @@ body::before {
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-pink);
+  transition: top 0.3s ease;
 }
+
 
 .nav-logo {
   font-family: var(--font-dancing), cursive;
@@ -732,9 +781,33 @@ footer {
   transform: translateY(0);
 }
 
+/* FAQ Section */
+.faq-section {
+  background: var(--white);
+  padding: 6rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 5rem;
+}
+
+.faq-image-col {
+  margin-top: 6rem;
+}
+
 @media (max-width: 900px) {
+  .announcement-bar {
+    font-size: 0.7rem;
+    padding: 0 0.5rem;
+  }
+
   .site-nav {
     padding: 1rem 1.5rem;
+  }
+
+  .nav-logo-img {
+    max-height: 28px !important;
+    max-width: 95px !important;
   }
 
   .nav-links {
@@ -755,6 +828,17 @@ footer {
 
   section {
     padding: 4rem 2rem;
+  }
+
+  /* FAQ becomes single column, image hidden on mobile */
+  .faq-section {
+    grid-template-columns: 1fr;
+    padding: 4rem 1.5rem;
+    gap: 2rem;
+  }
+
+  .faq-image-col {
+    display: none;
   }
 
   .stats-bar {
