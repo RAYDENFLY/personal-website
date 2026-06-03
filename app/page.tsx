@@ -6,6 +6,7 @@ import { Favorites } from "@/components/Favorites";
 import { Footer } from "@/components/Footer";
 import { Gallery } from "@/components/Gallery";
 import { FAQ } from "@/components/FAQ";
+import { MessageBoard } from "@/components/MessageBoard";
 import { Hero } from "@/components/Hero";
 import { Interests } from "@/components/Interests";
 import { Navbar } from "@/components/Navbar";
@@ -32,6 +33,7 @@ export default function Home() {
         <Favorites />
         <Gallery />
         <FAQ />
+        <MessageBoard />
         <Quote />
         <Connect />
       </main>

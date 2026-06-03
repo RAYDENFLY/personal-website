@@ -77,8 +77,8 @@ export function FAQ() {
             const itemBg = isOpen
               ? 'rgba(226,138,149,0.08)'
               : isHovered
-              ? 'rgba(226,138,149,0.05)'
-              : '#fff';
+                ? 'rgba(226,138,149,0.05)'
+                : '#fff';
 
             const itemBorder = isOpen || isHovered
               ? 'rgba(226,138,149,0.35)'
@@ -134,8 +134,8 @@ export function FAQ() {
                     background: isOpen
                       ? 'rgba(226,138,149,0.3)'
                       : isHovered
-                      ? 'rgba(226,138,149,0.18)'
-                      : 'rgba(226,138,149,0.1)',
+                        ? 'rgba(226,138,149,0.18)'
+                        : 'rgba(226,138,149,0.1)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
