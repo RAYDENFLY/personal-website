@@ -63,8 +63,11 @@ export function SyncedLyrics({ title, artist, timestamps }: SyncedLyricsProps) {
         
         if (!res.ok) {
            // Fallback to text search if exact get fails
+           // Clean artist name to improve search hit rate (e.g. "Crawla; Leend" -> "Crawla")
+           const cleanArtist = artist.split(/[,;&/]| feat\.? | ft\.? /i)[0].trim();
+           
            const searchUrl = new URL("https://lrclib.net/api/search");
-           searchUrl.searchParams.set("q", `${artist} ${title}`);
+           searchUrl.searchParams.set("q", `${title} ${cleanArtist}`);
            const searchRes = await fetch(searchUrl.toString());
            
            if (searchRes.ok) {
