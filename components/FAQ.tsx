@@ -44,14 +44,7 @@ export function FAQ() {
   return (
     <div
       id="faq"
-      style={{
-        background: 'var(--white)',
-        padding: '6rem',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        alignItems: 'center',
-        gap: '5rem',
-      }}
+      className="faq-section"
     >
       {/* ── LEFT COLUMN: heading + FAQ list ── */}
       <div>
@@ -182,7 +175,7 @@ export function FAQ() {
       </div>
 
       {/* ── RIGHT COLUMN: photo ── */}
-      <div className="hero-image-wrap" style={{ marginTop: '6rem' }}>
+      <div className="hero-image-wrap faq-image-col">
         <div className="hero-image-frame">
           {/* Override the global 420px height so the image extends further down */}
           <Image

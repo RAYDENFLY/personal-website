@@ -12,6 +12,7 @@ export function Navbar() {
           priority 
           width={130}
           height={40}
+          className="nav-logo-img"
           style={{ width: "auto", height: "auto", marginRight: "1rem" }}
         />
       </a>
