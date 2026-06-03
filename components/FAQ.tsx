@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { LuPlus } from 'react-icons/lu';
 import Image from 'next/image';
-import photoray from '@/assets/images/photoray.png';
+import photoray from '@/assets/images/bochi2.jpg';
 
 const faqs = [
   {
