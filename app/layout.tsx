@@ -3,14 +3,14 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "RAYDENFLY - Digital Identity & Portfolio",
+  title: "Ray — A Personal Space",
   description:
-    "Ruang digital RAYDENFLY, kreator digital yang mencintai teknologi, estetika, dan desain. Portfolio, karya, dan pemikiran dalam satu tempat.",
-  keywords: ["RAYDENFLY", "Digital Identity", "Portfolio", "Kreator Digital", "Desain Grafis", "Teknologi", "Web Developer Indonesia"],
-  authors: [{ name: "Ray" }],
+    "Website pribadi Azis Maulana Suhada (Ray). Mahasiswa Teknik Komputer, freelancer, pecinta teknologi, musik, otomotif, dan eksplorasi hal-hal baru.",
+  keywords: ["RAYDENFLY", "Digital Identity", "Portfolio", "Kreator Digital", "Desain Grafis", "Teknologi", "Web Developer Indonesia", "Azis Maulana Suhada", "Azis Maulana", "Azis"],
+  authors: [{ name: "Ray Extended" }],
   openGraph: {
-    title: "RAYDENFLY - Digital Identity",
-    description: "Kreator digital yang mencintai teknologi, estetika, dan desain.",
+    title: "Ray — A Personal Space",
+    description: "Website pribadi Azis Maulana Suhada (Ray). Mahasiswa Teknik Komputer, freelancer, pecinta teknologi, musik, otomotif, dan eksplorasi hal-hal baru.",
     url: "https://raydenfly.my.id", // Sesuaikan dengan domain aslimu nanti
     siteName: "RAYDENFLY",
     images: [
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "RAYDENFLY - Digital Identity",
-    description: "Kreator digital yang mencintai teknologi, estetika, dan desain.",
+    title: "Ray — A Personal Space",
+    description: "Website pribadi Azis Maulana Suhada (Ray). Mahasiswa Teknik Komputer, freelancer, pecinta teknologi, musik, otomotif, dan eksplorasi hal-hal baru.",
     images: ["/assets/images/photoray.png"],
     creator: "@rayryyty", // Sesuaikan dengan username twittermu
   },
