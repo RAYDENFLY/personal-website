@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://raydenfly.vercel.app/sitemap.xml
