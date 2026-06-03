@@ -18,7 +18,7 @@ export const interests = [
     icon: "FaMusic",
     title: "Musik",
     description:
-      "Kalau baterai sosialku habis, musik jadi charger-nya. Akhir-akhir ini lebih sering dengar hip-hop. Punya beberapa artist favorit: Rizki Ibrahim, Fury+, Crawla, Suisei."
+      "Kalau baterai sosialku habis, musik jadi charger-nya. Akhir-akhir ini lebih sering dengar hip-hop. Punya beberapa artist favorit: Rizki Inrahim, Fury+, Crawla, Suisei."
   },
   {
     icon: "FaLaptopCode",
@@ -56,7 +56,7 @@ export const currentlyItems = [
   { tag: "Fokus", text: "Menyelesaikan tugas akhir (sidang skripsi)" },
   { tag: "Kerjain", text: "Beberapa project freelance" },
   { tag: "Belajar", text: "Banyak hal baru (teknologi & hal random)" },
-  { tag: "Dengerin", text: "Hip-hop: Rizki Ibrahim, Fury+, Crawla, Suisei" },
+  { tag: "Dengerin", text: "Hip-hop: Rizki Inrahim, Fury+, Crawla, Suisei" },
   { tag: "Main", text: "Racing games: Assetto Corsa, Gran Turismo, Forza" },
   { tag: "Mindset", text: "Tetap penasaran dan terus belajar tanpa terburu" }
 ];

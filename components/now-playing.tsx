@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { processLanyardData, type NowPlayingResult } from "@/lib/lanyard";
 import { LiveProgress } from "./live-progress";
+import { SyncedLyrics } from "./synced-lyrics";
 
 // ... icons ... (keeping them as is)
 function MusicIcon({ className = "h-[11px] w-[11px]" }: { className?: string }) {
@@ -216,6 +217,8 @@ export function NowPlaying() {
           <div className="mb-[8px] truncate text-[14px] text-[var(--gray)]" title={track.artist}>
             {track.artist}
           </div>
+          
+          <SyncedLyrics title={track.title} artist={track.artist} timestamps={track.timestamps} />
           
           <LiveProgress timestamps={track.timestamps} />
           
