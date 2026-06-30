@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { About } from "@/components/About";
 import { Connect } from "@/components/Connect";
 import { Currently } from "@/components/Currently";
+import { Projects } from "@/components/Projects";
 import { Favorites } from "@/components/Favorites";
 import { Footer } from "@/components/Footer";
 import { Gallery } from "@/components/Gallery";
@@ -32,6 +33,7 @@ export default function Home() {
             <NowPlaying />
           </Suspense>
         </Currently>
+        <Projects />
         <Favorites />
         <Gallery />
         <FAQ />
